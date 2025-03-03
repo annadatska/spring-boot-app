@@ -68,7 +68,7 @@ jobs:
     runs-on: self-hosted
     needs: build
 
-     steps:
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v2 
       - name: Update helm chart image tag
