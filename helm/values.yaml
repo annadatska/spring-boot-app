@@ -1,0 +1,34 @@
+serviceAccount:
+  create: false 
+  name: spring-app-sa
+
+replicaCount: 1
+
+image:
+  repository: datskadevops/spring-boot-app
+  tag: "a00d165fda762ba0bf35424c3497bf75622c1572"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+autoscaling:
+  enabled: false
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
