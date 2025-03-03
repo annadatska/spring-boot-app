@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: self-hosted
 
     steps:
@@ -64,13 +64,7 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-  deploy:
-    runs-on: self-hosted
-    needs: build
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2 
+    
       - name: Update helm chart image tag
         run: |
           sed -i "s/tag: .*/tag: $VERSION/" helm/values.yaml
