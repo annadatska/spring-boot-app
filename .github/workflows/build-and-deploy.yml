@@ -71,4 +71,15 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm upgrade --install spring-app helm --namespace springboot
+          RELEASE_NAME="spring-app"
+          NAMESPACE="springboot"
+          RELEASE_EXISTS=$(helm list --namespace $NAMESPACE -q -f $RELEASE_NAME)
+
+          if [ -z "$RELEASE_EXISTS" ]; then
+            echo "Release $RELEASE_NAME not found. Deploying..."
+            helm install $RELEASE_NAME helm --namespace $NAMESPACE
+          else
+            echo "Release $RELEASE_NAME found. Upgrading..."
+            helm upgrade $RELEASE_NAME helm --namespace $NAMESPACE
+          fi
+        shell: /bin/bash
