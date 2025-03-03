@@ -32,3 +32,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+secrets:
+  dockerRegistry:
+    create: false
+    secretName: "docker-registry-secret"
