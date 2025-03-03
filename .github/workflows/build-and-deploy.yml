@@ -82,4 +82,4 @@ jobs:
             echo "Release $RELEASE_NAME found. Upgrading..."
             helm upgrade $RELEASE_NAME helm --namespace $NAMESPACE
           fi
-        shell: /bin/bash
+        shell: bash
