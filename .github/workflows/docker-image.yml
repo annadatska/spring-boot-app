@@ -1,0 +1,43 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Trigger build on push to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger build on PR to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up JDK for building the Spring Boot app
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+
+      # Step 3: Build the Spring Boot application JAR file
+      - name: Build Spring Boot app
+        run: ./mvnw clean package -DskipTests
+
+      # Step 4: Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 5: Build the Docker image
+      - name: Build Docker image
+        run: docker build -t your-dockerhub-username/spring-boot-app:$GITHUB_SHA .
+
+      # Step 6: Push the Docker image to Docker Hub
+      - name: Push Docker image
+        run: docker push your-dockerhub-username/spring-boot-app:$GITHUB_SHA
